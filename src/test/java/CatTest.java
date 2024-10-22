@@ -1,9 +1,12 @@
+
 import com.example.Cat;
 import com.example.Feline;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
 import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class CatTest {
@@ -20,22 +23,31 @@ public class CatTest {
 
     @Test
     public void testGetSound() {
-        // Проверяем что метод getSound() возвращает правильный звук для кошки
+        // Проверяем, что метод getSound() возвращает правильный звук для кошки
         assertEquals("Мяу", cat.getSound());
     }
 
     @Test
-    public void testGetFood() throws Exception {
+    public void testGetFoodReturnsCorrectValue() throws Exception {
         // Настраиваем мок объект чтобы метод eatMeat() возвращал список с "Мясо"
         Mockito.when(feline.eatMeat()).thenReturn(List.of("Мясо"));
 
         // Получаем еду для кошки
         List<String> food = cat.getFood();
 
-        // Проверяем что возвращаемый список еды совпадает с ожидаемым значением
+        // Проверяем, что возвращаемый список еды совпадает с ожидаемым значением
         assertEquals(List.of("Мясо"), food);
+    }
 
-        // Проверяем что метод eatMeat() был вызван один раз на мок объекте feline
+    @Test
+    public void testGetFoodCallsEatMeat() throws Exception {
+        // Настраиваем мок объект чтобы метод eatMeat() возвращал список с "Мясо"
+        Mockito.when(feline.eatMeat()).thenReturn(List.of("Мясо"));
+
+        // Получаем еду для кошки
+        cat.getFood();
+
+        // Проверяем, что метод eatMeat() был вызван один раз на мок объекте feline
         Mockito.verify(feline).eatMeat();
     }
 }
